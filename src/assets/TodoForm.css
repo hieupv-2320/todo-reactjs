@@ -1,0 +1,6 @@
+.formToDo {
+    transition:2s ease-in;
+}
+.closeBtn {
+    cursor: pointer;
+}

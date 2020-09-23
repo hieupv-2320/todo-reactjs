@@ -6,17 +6,14 @@ import TodoForm from './components/TodoForm'
 import Control from './components/Control'
 import ListTodo from './components/ListTodo'
 
-
-
-
 function App() {
     const [toDos, setToDos] = useState([]);
     const [isDisplayForm, setIsDisplayForm] = useState(true)
     
     const getData = () => {
         const Todo = [
-            {'title':'random', 'completed': randomInt(1, 3)},
-            {'title':'oeoih', 'completed': randomInt(1, 3)}
+            {'id': 1, 'title':'random', 'completed': randomInt(1, 3)},
+            {'id': 2, 'title':'oeoih', 'completed': randomInt(1, 3)}
         ];
         setToDos(Todo);
         localStorage.setItem('toDos', JSON.stringify(Todo));
@@ -24,6 +21,26 @@ function App() {
 
     const displayForm = () => {
         setIsDisplayForm(!isDisplayForm);
+    }
+
+    const onSubmit = (data) => {
+        let item = {
+            'id': toDos.length + 1,
+            'title': data.title,
+            'completed': parseInt(data.completed)
+        };
+
+        setToDos([...toDos, item]);
+        closeForm();
+        
+    }
+
+    const deleteToDo = (id) => {
+        setToDos(toDos.filter((t) => t.id !== id))
+    }
+
+    const closeForm = () => {
+        setIsDisplayForm(false);
     }
 
     function randomInt(min, max) {
@@ -38,14 +55,24 @@ function App() {
                 </div>
                 <div className="row">
                     <div className="col-4">
-                        { isDisplayForm ? <TodoForm /> : '' }
+                        { isDisplayForm 
+                        ? 
+                        <TodoForm 
+                            submitForm={onSubmit}
+                            closeForm={closeForm}
+                        /> 
+                        : '' }
                     </div>
                     <div className={ isDisplayForm ? "col-8 pl-5" : "col-12 pl-5" }> 
                         <div className="row">
-                            <button className="btn btn-primary" onClick={displayForm}>
+                            <button 
+                                className="btn btn-primary" 
+                                onClick={displayForm}>
                                 Thêm Task Mới
-                            </button>
-                            <button className="btn btn-warning ml-4" onClick={getData}>
+                            </button>   
+                            <button 
+                                className="btn btn-warning ml-4" 
+                                onClick={getData}>
                                 Get Data
                             </button>
                         </div>
@@ -53,7 +80,10 @@ function App() {
                             <Control />
                         </div>
                         <div className="row"> 
-                            <ListTodo toDos = {toDos} />
+                            <ListTodo 
+                                toDos = {toDos} 
+                                deleteItem = {deleteToDo} 
+                            />
                         </div>
                     </div>
                 </div>

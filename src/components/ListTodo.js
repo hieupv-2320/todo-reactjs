@@ -2,6 +2,11 @@ import React from 'react'
 import ItemTodo from './ItemTodo'
 
 export default function ListTodo (props) {
+
+    const deleteTodo = (id) => {
+        props.deleteItem(id)
+    }
+    
     return ( 
         <table className="table table-bordered">
             <thead>
@@ -35,7 +40,10 @@ export default function ListTodo (props) {
                         <ItemTodo 
                             key={index} 
                             item={item.title} 
-                            completed={item.completed}/>
+                            id={item.id}
+                            completed={item.completed}
+                            deleteTodo={deleteTodo}
+                        />
                     )
                 }
             </tbody>

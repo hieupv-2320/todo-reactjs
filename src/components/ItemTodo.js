@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default function ItemTodo (props) {
+    const deleteTodo = () => {
+        props.deleteTodo(props.id);
+    }
+
     return (  
         <tr>
             <th scope="row">1</th>
@@ -12,7 +16,13 @@ export default function ItemTodo (props) {
             </td>
             <td>
                 <button className="btn btn-success">Sửa</button>
-                <button className="btn btn-danger">Xóa</button>
+                <button 
+                    className="btn btn-danger"
+                    id={props.id}
+                    onClick={deleteTodo}
+                    >
+                    Xóa
+                </button>
             </td>
         </tr>
     )
